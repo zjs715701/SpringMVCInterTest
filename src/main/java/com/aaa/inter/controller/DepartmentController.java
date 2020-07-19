@@ -1,9 +1,7 @@
 package com.aaa.inter.controller;
 
 import com.aaa.inter.entity.DepartmentEntity;
-import com.aaa.inter.entity.EmployeeEntity;
 import com.aaa.inter.service.DepartmentService;
-import com.aaa.inter.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
