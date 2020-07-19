@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.inter.mapper.DepartmentMapper">
+  <resultMap id="BaseResultMap" type="com.aaa.inter.entity.DepartmentEntity">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="department_id" jdbcType="INTEGER" property="departmentId" />
+    <result column="department_name" jdbcType="VARCHAR" property="departmentName" />
+    <result column="department_state" jdbcType="VARCHAR" property="departmentState" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    department_id, department_name, department_state
+  </sql>
+</mapper>

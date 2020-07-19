@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!--容器文件：需要根据此文件来生成IOC容器：容器管理类和类之间的关系-->
+    <!--类和类之间的关系都需要在此文件中声明，Spring将所有类作为Bean进行管理-->
+    <!--bean标签的作用是管理类 id是唯一性标志  如果管容器要对象的时候就可以根据id 要-->
+    <!--bean是一个类 需要new对象根据此配置来new 管理关系可以property-->
+    <!--property:属性，实际就是在管理本类依赖的成员变量的关系-->
+    <!--name对应成员变量名  ref是依赖对象的id名-->
+    <!-- 注解扫描 -->
+    <context:component-scan base-package="com.aaa.inter"/>
+
+    <!--    配置数据源-->
+    <context:property-placeholder location="classpath:config/db.properties"/>
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="url" value="${db.url}"/>
+        <property name="username" value="${db.username}"/>
+        <property name="password" value="${db.password}"/>
+        <property name="driverClassName" value="${db.className}"/>
+    </bean>
+
+    <!-- 配置SqlsessionFactory 在mybatisspqing整合的中间包中有一个sqlsessionfactoybean类-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- sqlsessionfactory依赖于数据源 因为创建工厂的时候要读取配置文件，配置文件中就有数据源 -->
+        <property name="dataSource" ref="dataSource"/>
+        <!-- mybatis主配置文件包含好几个部分，所以创建工厂的时候要有mybaits主配置文件中的插件或者设置 还有头 -->
+        <property name="configLocation" value="classpath:config/mybatis-config.xml"/>
+        <!-- mybatis中的mapper 指定映射文件的位置，mybaits中有 resource class -->
+        <property name="mapperLocations" value="classpath:com/aaa/inter/mapper/*.xml"/>
+    </bean>
+    <!--配置xml代理类-->
+    <bean  class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.aaa.inter.mapper"/>
+        <property name="properties">
+            <value>
+                mappers= tk.mybatis.mapper.common.Mapper,tk.mybatis.mapper.common.special.InsertListMapper
+            </value>
+        </property>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+    </bean>
+
+    <!--配置事务管理类-->
+    <bean id="dataSourceTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <tx:annotation-driven transaction-manager="dataSourceTransactionManager"/>
+</beans>

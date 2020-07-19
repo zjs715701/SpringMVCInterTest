@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE generatorConfiguration
+                PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+                "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <!--MYSQL ——整合通用Mapper版本的你想工程-->
+    <context id="Mysql" targetRuntime="MyBatis3" defaultModelType="flat">
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <!--通用 Mapper 插件，可以生成带注解的实体类-->
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="com.aaa.inter.common.CommonMapper"/>
+            <property name="caseSensitive" value="true"/>
+            <property name="forceAnnotation" value="true"/>
+            <property name="beginningDelimiter" value="`"/>
+            <property name="endingDelimiter" value="`"/>
+        </plugin>
+
+        <commentGenerator>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+            <property name="suppressDate" value="true"/>
+            <property name="addRemarkComments" value="true"/>
+        </commentGenerator>
+
+        <!-- 数据库链接URL、用户名、密码 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/homework?useUnicode=true&amp;characterEncoding=utf8"
+                        userId="root"
+                        password="123456">
+        </jdbcConnection>
+
+        <!-- 生成模型的包名和位置 -->
+        <javaModelGenerator targetPackage="com.aaa.inter.entity" targetProject="src/main/java">
+            <!-- 是否  自动为每一个生成的类创建一个构造方法-->
+            <property name="constructorBased" value="false"/>
+            <property name="useActualColumnNames" value="true" />
+            <!-- 在targetPackage的基础上，根据数据库的schema再生成一层package-->
+            <property name="enableSubPackages" value="false"/>
+            <!-- 是否创建一个不可变的类 -->
+            <property name="immutable" value="false"/>
+            <!-- 设置是否在getter方法中，对String类型字段调用trim()方法 -->
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- 生成的映射文件包名和位置 -->
+        <sqlMapGenerator targetPackage="com.aaa.inter.mapper" targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <javaClientGenerator targetPackage="com.aaa.inter.mapper" targetProject="src/main/java" type="XMLMAPPER">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <table tableName="account" domainObjectName="AccountEntity" mapperName="AccountMapper"
+               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+            <!--mysql 配置-->
+            <generatedKey column="account_id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
+        </table>
+
+<!--        <table tableName="tab_employee" domainObjectName="EmployeeEntity" mapperName="EmployeeMapper"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"-->
+<!--               enableSelectByExample="false" selectByExampleQueryId="false">-->
+<!--            &lt;!&ndash;mysql 配置&ndash;&gt;-->
+<!--            <generatedKey column="employee_id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>-->
+<!--        </table>-->
+
+<!--        <table tableName="tab_department" domainObjectName="DepartmentEntity" mapperName="DepartmentMapper"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"-->
+<!--               enableSelectByExample="false" selectByExampleQueryId="false">-->
+<!--            &lt;!&ndash;mysql 配置&ndash;&gt;-->
+<!--            <generatedKey column="depart_id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>-->
+<!--        </table>-->
+
+    </context>
+</generatorConfiguration>

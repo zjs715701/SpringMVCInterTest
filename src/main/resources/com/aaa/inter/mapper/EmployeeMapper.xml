@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.inter.mapper.EmployeeMapper">
+  <resultMap id="BaseResultMap" type="com.aaa.inter.entity.EmployeeEntity" autoMapping="true">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="employee_id" jdbcType="INTEGER" property="employeeId" />
+    <result column="department_id" jdbcType="INTEGER" property="departmentId" />
+    <result column="employee_name" jdbcType="VARCHAR" property="employeeName" />
+    <result column="employee_sex" jdbcType="VARCHAR" property="employeeSex" />
+    <result column="employee_age" jdbcType="INTEGER" property="employeeAge" />
+    <result column="employee_state" jdbcType="VARCHAR" property="employeeState" />
+    <result column="account_id" jdbcType="INTEGER" property="accountId" />
+    <association property="departmentEntity" column="department_id" select="selectDepart"
+                 javaType="com.aaa.inter.entity.DepartmentEntity"  autoMapping="true">
+      <id column="department_id" property="departmentId"/>
+    </association>
+  </resultMap>
+  <select id="selectEmpAll" resultMap="BaseResultMap" >
+        select * from tab_employee
+  </select>
+  <select id="selectDepart" resultType="departmentEntity" parameterType="Integer" >
+        select * from tab_department where department_id = #{departmentId}
+  </select>
+
+
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    employee_id, department_id, employee_name, employee_sex, employee_age, employee_state, 
+    account_id
+  </sql>
+</mapper>

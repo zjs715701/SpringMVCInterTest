@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+         http://www.springframework.org/schema/mvc
+         http://www.springframework.org/schema/mvc/spring-mvc.xsd
+         http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--    开启注解-->
+    <context:component-scan base-package="com.aaa.inter.controller"/>
+    <!-- 加载mvc驱动 -->
+    <mvc:annotation-driven/>
+
+    <!--排除静态文件,让jq,js，jpg等文件不被拦截-->
+    <mvc:default-servlet-handler/>
+
+    <mvc:interceptors>
+        <!--单一的拦截器配置，可以限定拦截路径也可以配置排除路径-->
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <!--对CSS界面进行放行，不拦截-->
+            <mvc:exclude-mapping path="/**/*.css"/>
+            <mvc:exclude-mapping path="/account/login"/>
+            <!--对CSS界面进行放行，不拦截-->
+            <bean class="com.aaa.inter.inter.LoginInter"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!-- 渲染的时候用的viewClass是什么 -->
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <!--前缀后缀，这是一个约定，路径是info 默认就去/module/info.jsp  视图处理器它会自动补全-->
+        <property name="prefix" value="/module/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+</beans>
